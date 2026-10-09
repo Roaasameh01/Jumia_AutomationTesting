@@ -29,11 +29,11 @@ public class BasePage {
 
     public WebElement findElement(By locator, Duration duration) {
         wait = new WebDriverWait(driver, duration);
-        log.debug("🔎 Waiting for element: {}", locator);
+        log.debug(" Waiting for element: {}", locator);
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
-            log.error("❌ Element not visible within {} seconds: {}", duration.getSeconds(), locator);
+            log.error(" Element not visible within {} seconds: {}", duration.getSeconds(), locator);
             throw e;
         }
     }
@@ -48,17 +48,17 @@ public class BasePage {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
-            log.error("❌ Elements not visible within {} seconds: {}", duration.getSeconds(), locator);
+            log.error(" Elements not visible within {} seconds: {}", duration.getSeconds(), locator);
             throw e;
         }
         List<WebElement> elements = driver.findElements(locator);
-        log.debug("📦 Found {} elements for {}", elements.size(), locator);
+        log.debug(" Found {} elements for {}", elements.size(), locator);
         return elements;
     }
 
     public boolean navigateToPage(String redirectedUrl) {
         String currentUrl = driver.getCurrentUrl();
-        log.debug("🌐 Current URL: {}", currentUrl);
+        log.debug(" Current URL: {}", currentUrl);
         boolean matches = Objects.equals(currentUrl, redirectedUrl);
         if (!matches) {
             log.warn("⚠️ Expected URL {} but was {}", redirectedUrl, currentUrl);
