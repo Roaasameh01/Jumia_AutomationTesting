@@ -21,20 +21,20 @@ public class Screenshot {
      */
     public static File takeScreenshot(WebDriver driver) {
         if (driver == null) {
-            log.warn("⚠️ Cannot take screenshot: driver is null");
+            log.warn("Cannot take screenshot: driver is null");
             return null;
         }
 
         log.info("📸 Taking screenshot");
         try {
             File image = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            log.info("✅ Screenshot saved: {}", image.getAbsolutePath());
+            log.info("Screenshot saved: {}", image.getAbsolutePath());
             return image;
         } catch (ClassCastException e) {
-            log.error("❌ Driver {} does not support screenshots", driver.getClass().getSimpleName(), e);
+            log.error("Driver {} does not support screenshots", driver.getClass().getSimpleName(), e);
             throw e;
         } catch (WebDriverException e) {
-            log.error("❌ Failed to take screenshot", e);
+            log.error("Failed to take screenshot", e);
             throw e;
         }
     }

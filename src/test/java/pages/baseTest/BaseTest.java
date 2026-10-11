@@ -10,29 +10,32 @@ import org.testng.asserts.SoftAssert;
 import utils.jsonFileManager;
 
 public class BaseTest {
-    private static final Logger log = LogManager.getLogger(BaseTest.class);
-    public static jsonFileManager jsonFileManager;
 
+    private static final Logger log = LogManager.getLogger(BaseTest.class);
+
+    public static jsonFileManager jsonFileManager;
     public static WebDriver driver;
     public SoftAssert softAssert;
 
     @BeforeMethod
     public void setUp() {
         jsonFileManager = new jsonFileManager("src/main/resources/file.json");
-        log.info("🚀 Starting Chrome driver");
+        log.info("Starting Chrome driver");
         driver = GetChromeDriver.getDriver();
-        log.debug("🔍 Driver created: {}", driver);
-        driver.get("https://www.saucedemo.com");
+        log.debug("Driver created: {}", driver);
+
+        softAssert = new SoftAssert();
     }
 
     @AfterMethod
     public void tearDown() {
         if (driver == null) {
-            log.warn("⚠️ tearDown called but BaseTest.driver is null");
+            log.warn("tearDown called but BaseTest.driver is null");
+        } else {
+            log.info("Quitting Chrome driver");
+            GetChromeDriver.quitDriver();
+            driver = null;
+            log.debug("Driver quit and references cleared");
         }
-        log.info("🛑 Quitting Chrome driver");
-        GetChromeDriver.quitDriver();
-        driver = null;
-        log.debug("🧹 Driver quit and references cleared");
     }
 }

@@ -19,19 +19,19 @@ public class OpenCSVFileManager {
 
     public OpenCSVFileManager(String csvFilePath) {
         this.csvFilePath = csvFilePath;
-        log.info("📂 Reading CSV file: {}", csvFilePath);
+        log.info("Reading CSV file: {}", csvFilePath);
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
             List<String[]> all = reader.readAll();
             if (all.isEmpty()) {
-                log.error("❌ CSV file is empty: {}", csvFilePath);
+                log.error("CSV file is empty: {}", csvFilePath);
                 throw new IllegalStateException("CSV file is empty: " + csvFilePath);
             }
             columns.addAll(Arrays.asList(all.get(0)));
             rows.addAll(all.subList(1, all.size()));
-            log.info("✅ CSV loaded: {} columns, {} rows from [{}]", columns.size(), rows.size(), csvFilePath);
+            log.info("CSV loaded: {} columns, {} rows from [{}]", columns.size(), rows.size(), csvFilePath);
         } catch (IOException | CsvException e) {
-            log.error("❌ Could not read CSV file [{}]", csvFilePath, e);
+            log.error("Could not read CSV file [{}]", csvFilePath, e);
             throw new IllegalStateException("Could not read CSV file: " + csvFilePath, e);
         }
     }
@@ -66,7 +66,7 @@ public class OpenCSVFileManager {
      */
     public String getFirstColumn() {
         if (columns.isEmpty()) {
-            log.warn("⚠️ No columns found in [{}]", csvFilePath);
+            log.warn("No columns found in [{}]", csvFilePath);
             return null;
         }
         return columns.get(0);
@@ -77,7 +77,7 @@ public class OpenCSVFileManager {
      */
     public String getLastColumn() {
         if (columns.isEmpty()) {
-            log.warn("⚠️ No columns found in [{}]", csvFilePath);
+            log.warn("No columns found in [{}]", csvFilePath);
             return null;
         }
         return columns.get(columns.size() - 1);
@@ -89,7 +89,7 @@ public class OpenCSVFileManager {
      */
     public String getSpecificColumnName(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= columns.size()) {
-            log.warn("⚠️ Column index {} is out of range (0-{})", columnIndex, columns.size() - 1);
+            log.warn("Column index {} is out of range (0-{})", columnIndex, columns.size() - 1);
             return null;
         }
         return columns.get(columnIndex);
@@ -102,7 +102,7 @@ public class OpenCSVFileManager {
     public List<String> getSpecificColumnData(String columnName) {
         int idx = columns.indexOf(columnName);
         if (idx == -1) {
-            log.warn("⚠️ Column not found: {}", columnName);
+            log.warn("Column not found: {}", columnName);
             return Collections.emptyList();
         }
         return getSpecificColumnData(idx);
@@ -114,7 +114,7 @@ public class OpenCSVFileManager {
      */
     public List<String> getSpecificColumnData(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= columns.size()) {
-            log.warn("⚠️ Column index {} is out of range", columnIndex);
+            log.warn("Column index {} is out of range", columnIndex);
             return Collections.emptyList();
         }
         List<String> data = new ArrayList<>();
@@ -123,7 +123,7 @@ public class OpenCSVFileManager {
                 data.add(row[columnIndex]);
             }
         }
-        log.debug("📋 Column '{}' has {} values", columns.get(columnIndex), data.size());
+        log.debug("Column '{}' has {} values", columns.get(columnIndex), data.size());
         return data;
     }
 
@@ -134,12 +134,12 @@ public class OpenCSVFileManager {
      */
     public String getCellData(int rowNum, int columnIndex) {
         if (rowNum < 0 || rowNum >= rows.size()) {
-            log.warn("⚠️ Row {} is out of range (0-{})", rowNum, rows.size() - 1);
+            log.warn("Row {} is out of range (0-{})", rowNum, rows.size() - 1);
             return null;
         }
         String[] row = rows.get(rowNum);
         if (columnIndex < 0 || columnIndex >= row.length) {
-            log.warn("⚠️ Column index {} is out of range for row {}", columnIndex, rowNum);
+            log.warn("Column index {} is out of range for row {}", columnIndex, rowNum);
             return null;
         }
         return row[columnIndex];
@@ -153,7 +153,7 @@ public class OpenCSVFileManager {
     public String getCellData(int rowNum, String columnName) {
         int idx = columns.indexOf(columnName);
         if (idx == -1) {
-            log.warn("⚠️ Column not found: {}", columnName);
+            log.warn("Column not found: {}", columnName);
             return null;
         }
         return getCellData(rowNum, idx);
@@ -220,7 +220,7 @@ public class OpenCSVFileManager {
             }
         }
         subAns.add(String.valueOf(max));
-        log.debug("🔤 Max frequency {} for {} candidate word(s)", max, subAns.size() - 1);
+        log.debug("Max frequency {} for {} candidate word(s)", max, subAns.size() - 1);
         return subAns;
     }
 

@@ -28,7 +28,7 @@ public class jsonFileManager {
      */
     public jsonFileManager(String jsonPath) {
         if (jsonPath == null || jsonPath.isEmpty()) {
-            log.error("❌ JSON path is null or empty");
+            log.error("JSON path is null or empty");
             throw new IllegalArgumentException("JSON path must be provided");
         }
         log.info("📄 Loading JSON from [{}]", jsonPath);
@@ -36,13 +36,13 @@ public class jsonFileManager {
             LinkedHashMap<String, Object> loaded = new Gson().fromJson(reader, TYPE);
             data = loaded == null ? new LinkedHashMap<>() : loaded;
         } catch (IOException e) {
-            log.error("❌ Could not read JSON file [{}]", jsonPath, e);
+            log.error("Could not read JSON file [{}]", jsonPath, e);
             throw new UncheckedIOException("Could not read JSON file: " + jsonPath, e);
         } catch (JsonParseException e) {
-            log.error("❌ Invalid JSON in [{}]", jsonPath, e);
+            log.error("Invalid JSON in [{}]", jsonPath, e);
             throw e;
         }
-        log.debug("✅ Loaded {} top-level keys from [{}]", data.size(), jsonPath);
+        log.debug("Loaded {} top-level keys from [{}]", data.size(), jsonPath);
     }
 
     /**
@@ -53,11 +53,11 @@ public class jsonFileManager {
      */
     public Object getValueByKey(String key) {
         if (!data.containsKey(key)) {
-            log.warn("⚠️ Key '{}' not found in JSON", key);
+            log.warn(" Key '{}' not found in JSON", key);
             return null;
         }
         Object value = data.get(key);
-        log.debug("🔑 Value of key '{}': {}", key, value);
+        log.debug("Value of key '{}': {}", key, value);
         return value;
     }
 
@@ -70,25 +70,25 @@ public class jsonFileManager {
     @SuppressWarnings("unchecked")
     public LinkedHashMap<String, Object> getKeyAndValueByKey(String key) {
         if (key == null || key.isEmpty()) {
-            log.warn("⚠️ Key is null or empty");
+            log.warn("Key is null or empty");
             return null;
         }
         if (!data.containsKey(key)) {
-            log.warn("⚠️ Key '{}' not found in JSON", key);
+            log.warn("Key '{}' not found in JSON", key);
             return null;
         }
         Object value = data.get(key);
         if (!(value instanceof Map)) {
-            log.warn("⚠️ Value of key '{}' is not a map: {}", key, value);
+            log.warn("Value of key '{}' is not a map: {}", key, value);
             return null;
         }
         Map<String, Object> rawMap = (Map<String, Object>) value;
         if (rawMap.isEmpty()) {
-            log.warn("⚠️ Map under key '{}' is empty", key);
+            log.warn("Map under key '{}' is empty", key);
             return null;
         }
         LinkedHashMap<String, Object> result = new LinkedHashMap<>(rawMap);
-        log.debug("🗺️ Map under key '{}' has {} entries", key, result.size());
+        log.debug("Map under key '{}' has {} entries", key, result.size());
         return result;
     }
 
@@ -100,23 +100,23 @@ public class jsonFileManager {
      */
     public List<String> getValueListByKey(String key) {
         if (key == null || key.isEmpty()) {
-            log.warn("⚠️ Key is null or empty");
+            log.warn("Key is null or empty");
             return null;
         }
         if (!data.containsKey(key)) {
-            log.warn("⚠️ Key '{}' not found in JSON", key);
+            log.warn("Key '{}' not found in JSON", key);
             return null;
         }
         Object value = data.get(key);
         if (!(value instanceof List)) {
-            log.warn("⚠️ Value of key '{}' is not a list: {}", key, value);
+            log.warn("Value of key '{}' is not a list: {}", key, value);
             return null;
         }
         List<String> result = new ArrayList<>();
         for (Object item : (List<?>) value) {
             result.add(String.valueOf(item));
         }
-        log.debug("📋 List under key '{}' has {} items", key, result.size());
+        log.debug("List under key '{}' has {} items", key, result.size());
         return result;
     }
 
@@ -128,7 +128,7 @@ public class jsonFileManager {
      */
     public List<String> getKeys(String keyPrefix) {
         if (keyPrefix == null || keyPrefix.isEmpty()) {
-            log.warn("⚠️ Key prefix is null or empty");
+            log.warn("Key prefix is null or empty");
             return null;
         }
         String needle = normalize(keyPrefix);
@@ -139,10 +139,10 @@ public class jsonFileManager {
             }
         }
         if (keys.isEmpty()) {
-            log.warn("⚠️ No keys match prefix '{}'", keyPrefix);
+            log.warn("No keys match prefix '{}'", keyPrefix);
             return null;
         }
-        log.debug("🔍 Keys matching '{}': {}", keyPrefix, keys);
+        log.debug("Keys matching '{}': {}", keyPrefix, keys);
         return keys;
     }
 
@@ -153,11 +153,11 @@ public class jsonFileManager {
      */
     public List<String> getKeys() {
         if (data.isEmpty()) {
-            log.warn("⚠️ JSON contains no keys");
+            log.warn("JSON contains no keys");
             return null;
         }
         List<String> keys = new ArrayList<>(data.keySet());
-        log.debug("🗝️ Retrieved {} keys", keys.size());
+        log.debug("Retrieved {} keys", keys.size());
         return keys;
     }
 
@@ -169,7 +169,7 @@ public class jsonFileManager {
      */
     public List<Object> getValues(String valuePrefix) {
         if (valuePrefix == null || valuePrefix.isEmpty()) {
-            log.warn("⚠️ Value prefix is null or empty");
+            log.warn("Value prefix is null or empty");
             return null;
         }
         String needle = normalize(valuePrefix);
@@ -180,10 +180,10 @@ public class jsonFileManager {
             }
         }
         if (values.isEmpty()) {
-            log.warn("⚠️ No values match '{}'", valuePrefix);
+            log.warn("No values match '{}'", valuePrefix);
             return null;
         }
-        log.debug("🔍 Values matching '{}': {}", valuePrefix, values);
+        log.debug("Values matching '{}': {}", valuePrefix, values);
         return values;
     }
 
@@ -194,11 +194,11 @@ public class jsonFileManager {
      */
     public List<Object> getValues() {
         if (data.isEmpty()) {
-            log.warn("⚠️ JSON contains no values");
+            log.warn("JSON contains no values");
             return null;
         }
         List<Object> values = new ArrayList<>(data.values());
-        log.debug("📦 Retrieved {} values", values.size());
+        log.debug("Retrieved {} values", values.size());
         return values;
     }
 

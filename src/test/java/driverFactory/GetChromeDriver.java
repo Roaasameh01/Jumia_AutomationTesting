@@ -16,36 +16,36 @@ public class GetChromeDriver implements DriverFactory {
 
     public static WebDriver getDriver() {
         if (driver == null) {
-            log.info("🌐 Creating new Chrome driver with --incognito");
+            log.info("Creating new Chrome driver with --incognito");
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
             try {
                 driver = new ChromeDriver(options);
-                log.debug("✅ Chrome driver created");
+                log.debug("Chrome driver created");
             } catch (WebDriverException e) {
-                log.error("❌ Failed to create Chrome driver. Check Chrome and ChromeDriver versions", e);
+                log.error("Failed to create Chrome driver. Check Chrome and ChromeDriver versions", e);
                 throw e;
             }
         } else {
-            log.debug("♻️ Reusing existing Chrome driver");
+            log.debug("️Reusing existing Chrome driver");
         }
         return driver;
     }
 
     public static void quitDriver() {
         if (driver != null) {
-            log.info("🛑 Quitting Chrome driver");
+            log.info("Quitting Chrome driver");
             try {
                 driver.quit();
-                log.debug("🧹 Chrome driver quit successfully");
+                log.debug("Chrome driver quit successfully");
             } catch (WebDriverException e) {
-                log.error("❌ Error while quitting Chrome driver", e);
+                log.error("Error while quitting Chrome driver", e);
                 throw e;
             } finally {
                 driver = null;
             }
         } else {
-            log.debug("⏭️ quitDriver called but no driver is active");
+            log.debug("quitDriver called but no driver is active");
         }
     }
 }

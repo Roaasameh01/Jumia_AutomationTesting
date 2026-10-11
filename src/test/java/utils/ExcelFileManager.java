@@ -35,21 +35,21 @@ public class ExcelFileManager {
      * @param sheetName the name of the sheet to be loaded
      */
     public ExcelFileManager(String excelFilePath, String sheetName) {
-        log.info("📗 Opening Excel file: {}", excelFilePath);
+        log.info("Opening Excel file: {}", excelFilePath);
         try (FileInputStream fileInputStream = new FileInputStream(excelFilePath)) {
             workbook = new XSSFWorkbook(fileInputStream);
         } catch (IOException e) {
-            log.error("❌ Could not open Excel file: {}", excelFilePath, e);
+            log.error("Could not open Excel file: {}", excelFilePath, e);
             throw new UncheckedIOException("Could not open Excel file: " + excelFilePath, e);
         }
 
         sheet = workbook.getSheet(sheetName);
         if (sheet == null) {
-            log.error("❌ Sheet [{}] not found in {}", sheetName, excelFilePath);
+            log.error("Sheet [{}] not found in {}", sheetName, excelFilePath);
             closeExcelFile();
             throw new IllegalArgumentException("Sheet not found: " + sheetName);
         }
-        log.info("✅ Sheet loaded: {}", sheetName);
+        log.info("Sheet loaded: {}", sheetName);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ExcelFileManager {
      */
     public int getRowCount() {
         int rowCount = sheet.getPhysicalNumberOfRows();
-        log.info("📊 Total rows: {}", rowCount);
+        log.info("Total rows: {}", rowCount);
         return rowCount;
     }
 
@@ -71,11 +71,11 @@ public class ExcelFileManager {
     public int getColumnCount() {
         Row headerRow = sheet.getRow(0);
         if (headerRow == null) {
-            log.warn("⚠️ Header row is empty in sheet {}", sheet.getSheetName());
+            log.warn("Header row is empty in sheet {}", sheet.getSheetName());
             return 0;
         }
         int columnCount = Math.max(headerRow.getLastCellNum(), 0);
-        log.debug("🧮 Total columns: {}", columnCount);
+        log.debug("Total columns: {}", columnCount);
         return columnCount;
     }
 
@@ -89,10 +89,10 @@ public class ExcelFileManager {
     public String getSpecificCellFormula(int rowNum, int colNum) {
         Cell cell = getCell(rowNum, colNum);
         if (cell != null && cell.getCellType() == CellType.FORMULA) {
-            log.info("🧾 Formula found at row {}, column {}", rowNum, colNum);
+            log.info("Formula found at row {}, column {}", rowNum, colNum);
             return cell.getCellFormula();
         }
-        log.warn("⚠️ No formula found at row {}, column {}", rowNum, colNum);
+        log.warn("No formula found at row {}, column {}", rowNum, colNum);
         return "There's No Formula here";
     }
 
@@ -105,7 +105,7 @@ public class ExcelFileManager {
      */
     public String getSpecificCellData(int rowNum, int colNum) {
         String cellData = formatter.formatCellValue(getCell(rowNum, colNum));
-        log.debug("🔤 Cell data at row {}, column {}: {}", rowNum, colNum, cellData);
+        log.debug("Cell data at row {}, column {}: {}", rowNum, colNum, cellData);
         return cellData;
     }
 
@@ -120,7 +120,7 @@ public class ExcelFileManager {
         for (int i = 0; i < columns; i++) {
             headers.add(getSpecificCellData(0, i));
         }
-        log.info("🏷️ Headers retrieved: {}", headers);
+        log.info("Headers retrieved: {}", headers);
         return headers;
     }
 
@@ -140,7 +140,7 @@ public class ExcelFileManager {
             }
             columnData.put(headers.get(i), columnValues);
         }
-        log.info("🗂️ Column data retrieved for {} columns", columnData.size());
+        log.info("Column data retrieved for {} columns", columnData.size());
         return columnData;
     }
 
@@ -159,7 +159,7 @@ public class ExcelFileManager {
             }
             data.add(rowData);
         }
-        log.info("📋 Rows retrieved: {}", data.size());
+        log.info("Rows retrieved: {}", data.size());
         return data;
     }
 
@@ -172,9 +172,9 @@ public class ExcelFileManager {
         }
         try {
             workbook.close();
-            log.info("🛑 Excel file closed successfully");
+            log.info("Excel file closed successfully");
         } catch (IOException e) {
-            log.error("❌ Error closing Excel file", e);
+            log.error("Error closing Excel file", e);
             throw new UncheckedIOException("Could not close Excel file", e);
         }
     }

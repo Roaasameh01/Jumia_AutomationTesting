@@ -1,31 +1,49 @@
 package dataProviders;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
-import pages.BasePage;
 
 public class DataProviderTest {
-    private static final Logger log = LogManager.getLogger(DataProviderTest.class);
 
-    @DataProvider (name = "validCredentails")
-    public Object[][] validCredentails() {
-        log.info("📋 Supplying validCredentails data");
-        Object[][] data = new Object[][]{};
-        if (data.length == 0) {
-            log.warn("⚠️ validCredentails returned no rows");
-        }
-        return data;
+    // ==================== Scenario 3 - Cart Quantity ====================
+    @DataProvider(name = "cartQuantityProducts")
+    public Object[][] cartQuantityProducts() {
+        return new Object[][] {
+                {"https://www.jumia.com.eg/kisonli-kisonlii-headphone-wireless-a9-foldable-headset-bluetooth-5.3-hifi-stereo-noise-reduction-black-134538501.html"},
+        };
     }
 
-    @DataProvider (name = "invalidCredentails")
-    public Object[][] invalidCredentails() {
-        log.info("📋 Supplying invalidCredentails data");
-        Object[][] data = new Object[][]{};
-        if (data.length == 0) {
-            log.warn("⚠️ invalidCredentails returned no rows");
-        }
-        return data;
+//    // ==================== Scenario 2 - Product Comparison ====================
+//    @DataProvider(name = "comparisonProducts")
+//    public Object[][] comparisonProducts() {
+//        return new Object[][] {
+//                {
+//                        "https://www.jumia.com.eg/product1.html",
+//                        "https://www.jumia.com.eg/product2.html",
+//                        "https://www.jumia.com.eg/product3.html"
+//                }
+//        };
+//    }
+//
+//    // ==================== Scenario 4 - Mixed Cart ====================
+//    @DataProvider(name = "mixedCartProducts")
+//    public Object[][] mixedCartProducts() {
+//        return new Object[][] {
+//                {
+//                        "https://www.jumia.com.eg/mobile-phone.html",
+//                        "https://www.jumia.com.eg/headphones.html",
+//                        "https://www.jumia.com.eg/power-bank.html"
+//                }
+//        };
+//    }
+
+    // ==================== General Search Keywords ====================
+    @DataProvider(name = "searchKeywords")
+    public Object[][] searchKeywords() {
+        return new Object[][] {
+                {"Samsung Mobile"},
+                {"Wireless Headphones"},
+                {"Laptop"},
+                {"Power Bank"}
+        };
     }
 }

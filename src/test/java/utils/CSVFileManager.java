@@ -25,7 +25,7 @@ public class CSVFileManager {
      */
     public CSVFileManager(String csvFilePath) {
         this.csvFilePath = csvFilePath;
-        log.info("📄 Reading test data from [{}]", csvFilePath);
+        log.info("Reading test data from [{}]", csvFilePath);
         try (CSVParser parser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new FileReader(csvFilePath))) {
             headers.addAll(parser.getHeaderNames());
             for (CSVRecord record : parser) {
@@ -35,9 +35,9 @@ public class CSVFileManager {
                 }
                 rows.add(row);
             }
-            log.debug("✅ Loaded {} rows and {} columns from [{}]", rows.size(), headers.size(), csvFilePath);
+            log.debug("Loaded {} rows and {} columns from [{}]", rows.size(), headers.size(), csvFilePath);
         } catch (IOException e) {
-            log.error("❌ Couldn't read test data file [{}]", csvFilePath, e);
+            log.error("Couldn't read test data file [{}]", csvFilePath, e);
             throw new UncheckedIOException("Could not read CSV file: " + csvFilePath, e);
         }
     }
@@ -48,7 +48,7 @@ public class CSVFileManager {
      * @return a new list containing every data row
      */
     public List<String[]> getRows() {
-        log.debug("📋 Returning {} rows from [{}]", rows.size(), csvFilePath);
+        log.debug("Returning {} rows from [{}]", rows.size(), csvFilePath);
         return new ArrayList<>(rows);
     }
 
@@ -77,7 +77,7 @@ public class CSVFileManager {
             }
             columnWithRows.put(headers.get(i), columnData);
         }
-        log.debug("🗂️ Mapped {} columns to data from [{}]", columnWithRows.size(), csvFilePath);
+        log.debug("Mapped {} columns to data from [{}]", columnWithRows.size(), csvFilePath);
         return columnWithRows;
     }
 
@@ -88,7 +88,7 @@ public class CSVFileManager {
      */
     public String getLastColumn() {
         if (headers.isEmpty()) {
-            log.warn("⚠️ No columns found in [{}]", csvFilePath);
+            log.warn("No columns found in [{}]", csvFilePath);
             return null;
         }
         String last = headers.get(headers.size() - 1);
@@ -103,10 +103,10 @@ public class CSVFileManager {
      */
     public String getFirstColumn() {
         if (headers.isEmpty()) {
-            log.warn("⚠️ No columns found in [{}]", csvFilePath);
+            log.warn("No columns found in [{}]", csvFilePath);
             return null;
         }
-        log.debug("🔝 First column: {}", headers.get(0));
+        log.debug("First column: {}", headers.get(0));
         return headers.get(0);
     }
 
@@ -118,10 +118,10 @@ public class CSVFileManager {
      */
     public String getSpecificColumnName(int ColumnNum) {
         if (ColumnNum < 1 || ColumnNum > headers.size()) {
-            log.warn("⚠️ Column index {} is out of range (1-{})", ColumnNum, headers.size());
+            log.warn("Column index {} is out of range (1-{})", ColumnNum, headers.size());
             return null;
         }
-        log.debug("🏷️ Column {} is {}", ColumnNum, headers.get(ColumnNum - 1));
+        log.debug("Column {} is {}", ColumnNum, headers.get(ColumnNum - 1));
         return headers.get(ColumnNum - 1);
     }
 
@@ -134,10 +134,10 @@ public class CSVFileManager {
     public List<String> GetSpecificColumnData(String ColumnName) {
         List<String> data = getColumnsWithData().get(ColumnName);
         if (data == null) {
-            log.warn("⚠️ Column [{}] not found in [{}]", ColumnName, csvFilePath);
+            log.warn("Column [{}] not found in [{}]", ColumnName, csvFilePath);
             return Collections.emptyList();
         }
-        log.debug("📦 Column {} has {} values", ColumnName, data.size());
+        log.debug("Column {} has {} values", ColumnName, data.size());
         return data;
     }
 
@@ -165,12 +165,12 @@ public class CSVFileManager {
     public String getCellData(int RowNum, String ColumnName) {
         int col = headers.indexOf(ColumnName);
         if (col < 0 || RowNum < 0 || RowNum >= rows.size()) {
-            log.warn("⚠️ Cell not found. Row: {}, Column: {}", RowNum, ColumnName);
+            log.warn("Cell not found. Row: {}, Column: {}", RowNum, ColumnName);
             return null;
         }
         String[] row = rows.get(RowNum);
         if (col >= row.length) {
-            log.warn("⚠️ Row {} has no value for column {}", RowNum, ColumnName);
+            log.warn("Row {} has no value for column {}", RowNum, ColumnName);
             return null;
         }
         return row[col];
@@ -209,7 +209,7 @@ public class CSVFileManager {
      */
     public double getMinCellValue(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= headers.size()) {
-            log.warn("⚠️ Column index {} is out of range", columnIndex);
+            log.warn("Column index {} is out of range", columnIndex);
             return Double.NaN;
         }
         return findMin(GetSpecificColumnData(columnIndex + 1), headers.get(columnIndex));
@@ -233,7 +233,7 @@ public class CSVFileManager {
      */
     public double getMaxCellValue(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= headers.size()) {
-            log.warn("⚠️ Column index {} is out of range", columnIndex);
+            log.warn("Column index {} is out of range", columnIndex);
             return Double.NaN;
         }
         return findMax(GetSpecificColumnData(columnIndex + 1), headers.get(columnIndex));
@@ -257,7 +257,7 @@ public class CSVFileManager {
      */
     public int getCellCount(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= headers.size()) {
-            log.warn("⚠️ Column index {} is out of range", columnIndex);
+            log.warn("Column index {} is out of range", columnIndex);
             return 0;
         }
         return GetSpecificColumnData(columnIndex + 1).size();
@@ -265,7 +265,7 @@ public class CSVFileManager {
 
     private double findMin(List<String> values, String column) {
         if (values.isEmpty()) {
-            log.warn("⚠️ No values to compare in column {}", column);
+            log.warn("No values to compare in column {}", column);
             return Double.NaN;
         }
         try {
@@ -273,17 +273,17 @@ public class CSVFileManager {
             for (String value : values) {
                 min = Math.min(min, Double.parseDouble(value));
             }
-            log.debug("📉 Min of column {} is {}", column, min);
+            log.debug("Min of column {} is {}", column, min);
             return min;
         } catch (NumberFormatException e) {
-            log.error("❌ Non-numeric value in column {}", column, e);
+            log.error("Non-numeric value in column {}", column, e);
             return Double.NaN;
         }
     }
 
     private double findMax(List<String> values, String column) {
         if (values.isEmpty()) {
-            log.warn("⚠️ No values to compare in column {}", column);
+            log.warn("No values to compare in column {}", column);
             return Double.NaN;
         }
         try {
@@ -291,10 +291,10 @@ public class CSVFileManager {
             for (String value : values) {
                 max = Math.max(max, Double.parseDouble(value));
             }
-            log.debug("📈 Max of column {} is {}", column, max);
+            log.debug("Max of column {} is {}", column, max);
             return max;
         } catch (NumberFormatException e) {
-            log.error("❌ Non-numeric value in column {}", column, e);
+            log.error("Non-numeric value in column {}", column, e);
             return Double.NaN;
         }
     }

@@ -15,36 +15,36 @@ public class GetEdgeDriver implements DriverFactory {
 
     public static WebDriver getDriver() {
         if (driver == null) {
-            log.info("🌐 Creating new Edge driver with --incognito");
+            log.info("Creating new Edge driver with --incognito");
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--incognito");
             try {
                 driver = new EdgeDriver(options);
-                log.debug("✅ Edge driver created");
+                log.debug("Edge driver created");
             } catch (WebDriverException e) {
-                log.error("❌ Failed to create Edge driver. Check Edge and msedgedriver versions", e);
+                log.error("Failed to create Edge driver. Check Edge and msedgedriver versions", e);
                 throw e;
             }
         } else {
-            log.debug("♻️ Reusing existing Edge driver");
+            log.debug("Reusing existing Edge driver");
         }
         return driver;
     }
 
     public static void quitDriver() {
         if (driver != null) {
-            log.info("🛑 Quitting Edge driver");
+            log.info("Quitting Edge driver");
             try {
                 driver.quit();
-                log.debug("🧹 Edge driver quit successfully");
+                log.debug("Edge driver quit successfully");
             } catch (WebDriverException e) {
-                log.error("❌ Error while quitting Edge driver", e);
+                log.error("Error while quitting Edge driver", e);
                 throw e;
             } finally {
                 driver = null;
             }
         } else {
-            log.debug("⏭️ quitDriver called but no driver is active");
+            log.debug("quitDriver called but no driver is active");
         }
     }
 }
